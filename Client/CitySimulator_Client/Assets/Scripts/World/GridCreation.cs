@@ -13,6 +13,7 @@ using UnityEngine;
 ///  Name: Dongwon(Shawn) Kim   Change:	Adding data by CityDataManager  Date: 2017-10-18
 ///  Name: Paul McCarlie        Change: Grid now generates with starting point at centre    Date: 2017-11-09
 ///  Name: Dongwon(Shawn) Kim   Change:	turnGrid function        		Date: 2017-11-13
+///	 Name:  Paul McCarlie       Change: Text no longer needs to be set to zero Date: 2017-11-25
 /// Based on:  
 /// 	https://docs.unity3d.com/ScriptReference/Object.Instantiate.html
 /// 	http://answers.unity3d.com/questions/718778/trying-to-create-a-grid.html
@@ -28,6 +29,8 @@ public class GridCreation : MonoBehaviour {
 	// Size for the cell
 	public Vector3 size;
 
+	public Texture roadTexture;
+	
 // not using now
 //	public int gridWidth;
 //	public int gridHeight;
@@ -37,15 +40,14 @@ public class GridCreation : MonoBehaviour {
 	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
-	public bool turnOnGrid;
-	public bool turnOffGrid;
+	public bool turnOnGrid = false;
+	public bool turnOffGrid = true;
 
 	// Use this for initialization
 	void Start () {
 		parentGrid = GameObject.Find ("Grid");
 		cityDataManager = this.GetComponent<CityDataManager> ();
 		createGrid ();
-		turnEntireGrid(turnOnGrid);
 		//ShowGrid (false);
 	}
 
@@ -95,8 +97,8 @@ public class GridCreation : MonoBehaviour {
 
                 // creates each cell of the grid
 
-                float positionX = x + (cellPrefab.localScale.x * x) * 10;
-                float positionZ = z + (cellPrefab.localScale.z * z) * 10;
+                float positionX = x + (cellPrefab.localScale.x * x) * 8;
+                float positionZ = z + (cellPrefab.localScale.z * z) * 8;
 
                  Instantiate(cellPrefab, 
 							new Vector3(positionX - size.x*2.7f, 0, positionZ - size.z*2.6f),
@@ -126,6 +128,9 @@ public class GridCreation : MonoBehaviour {
 			if(planeTransform.GetChild(0).GetComponent<TextMesh>().text != "0"){
 				MeshRenderer component = plane.GetComponent<MeshRenderer>();
 				component.enabled = on;
+			} else {
+				MeshRenderer component = plane.GetComponent<MeshRenderer>();
+				component.material.mainTexture = roadTexture;
 			}
 
 			planeTransform.GetChild (0).GetComponent<MeshRenderer>().enabled = on;
