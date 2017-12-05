@@ -33,7 +33,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// </summary>
 	public void createCharacter(string guid, int src_x, int src_z, int dest_x, int dest_z){
 		
-		Debug.Log("Reciever Order: Create Character: " + guid + " " + src_x +", " + src_z + "/" + dest_x + ", " + dest_z);
+		//Debug.Log("Reciever Order: Create Character: " + guid + " " + src_x +", " + src_z + "/" + dest_x + ", " + dest_z);
 
 		// Delete character if it already exists
 		destroyCharacter (guid);
@@ -41,17 +41,17 @@ public class CharacterCreation : MonoBehaviour {
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
 		GameObject source = findPlane (src_x, src_z);
-		Debug.Log(source);
+		//Debug.Log(source);
 
 		Transform human = 
 			Instantiate (character,
 				new Vector3 (source.transform.position.x, 0, source.transform.position.z),
-				Quaternion.identity,characterManager.transform) as Transform;
+				Quaternion.identity, source.transform) as Transform;
 
-		human.gameObject.AddComponent<CharacterMove> ();
+		/*human.gameObject.AddComponent<CharacterMove> ();
 		human.GetComponent<CharacterMove> ().X_Dest = dest_x;
 		human.GetComponent<CharacterMove> ().Z_Dest = dest_z;
-		human.GetComponent<CharacterMove> ().StartBFS = true;
+		human.GetComponent<CharacterMove> ().StartBFS = true;*/
 		human.name = guid;
 	}
 
@@ -60,7 +60,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// </summary>
 	/// <param name="guid">GUID.</param>
 	public void destroyCharacter(string guid) {
-		Debug.Log("Reciever Order: Destroy Character: " + guid);
+		//Debug.Log("Reciever Order: Destroy Character: " + guid);
 
 		GameObject oldChar = GameObject.Find(guid);
 		if(!Object.ReferenceEquals(oldChar, null))
@@ -108,6 +108,7 @@ public class CharacterCreation : MonoBehaviour {
 				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
 				int x = human.GetComponent<CharacterMove> ().X_Dest;
 				int z = human.GetComponent<CharacterMove> ().Z_Dest;
+                
 				//				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
 				xz.Clear ();
 			}
